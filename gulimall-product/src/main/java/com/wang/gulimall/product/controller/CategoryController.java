@@ -1,6 +1,7 @@
 package com.wang.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,12 +35,12 @@ public class CategoryController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @RequestMapping("/list/tree")
     //@RequiresPermissions("product:category:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
+    public R list(){
+        List<CategoryEntity> list=categoryService.listAsTree();
 
-        return R.ok().put("page", page);
+        return R.ok().put("page", list);
     }
 
 
