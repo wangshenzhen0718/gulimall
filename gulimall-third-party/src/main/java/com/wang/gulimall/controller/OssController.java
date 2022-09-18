@@ -1,10 +1,10 @@
 package com.wang.gulimall.controller;
 
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
+import com.wang.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,27 +17,32 @@ import java.util.Map;
 
 @RestController
 public class OssController {
+
     @Autowired
     OSS ossClient;
+
     @Value("${spring.cloud.alicloud.oss.endpoint}")
     private String endpoint;
     @Value("${spring.cloud.alicloud.oss.bucket}")
     private String bucket;
+
     @Value("${spring.cloud.alicloud.access-key}")
     private String accessId;
-    @Value("${spring.cloud.alicloud.secret-key}")
-    private String accessKey;
+
+
     @RequestMapping("/oss/policy")
-    public Map<String, String> policy(){
-        // 填写Host地址，格式为https://bucketname.endpoint。
-        String host = "https://"+bucket+"."+endpoint;
+    public R policy() {
 
-        // 设置上传到OSS文件的前缀，可置空此项。置空后，文件将上传至Bucket的根目录下。
+
+
+        //https://gulimall-hello.oss-cn-beijing.aliyuncs.com/hahaha.jpg
+
+        String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
+        // callbackUrl为 上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。
+//        String callbackUrl = "http://88.88.88.88:8888";
         String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String dir = format;
+        String dir = format + "/"; // 用户上传文件时指定的前缀。
 
-        // 创建ossClient实例。
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessId, accessKey);
         Map<String, String> respMap = null;
         try {
             long expireTime = 30;
@@ -53,21 +58,20 @@ public class OssController {
             String postSignature = ossClient.calculatePostSignature(postPolicy);
 
             respMap = new LinkedHashMap<String, String>();
-            respMap.put("accessId", accessId);
+            respMap.put("accessid", accessId);
             respMap.put("policy", encodedPolicy);
             respMap.put("signature", postSignature);
             respMap.put("dir", dir);
             respMap.put("host", host);
             respMap.put("expire", String.valueOf(expireEndTime / 1000));
+            // respMap.put("expire", formatISO8601Date(expiration));
+
 
         } catch (Exception e) {
             // Assert.fail(e.getMessage());
             System.out.println(e.getMessage());
         }
-        return respMap;
+
+        return R.ok().put("data",respMap);
     }
-
-
-
-
 }
