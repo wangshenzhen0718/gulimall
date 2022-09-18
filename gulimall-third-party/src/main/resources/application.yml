@@ -1,5 +1,11 @@
 spring:
   cloud:
+    alicloud:
+      access-key: LTAI5tDd1yPb4AMX3abjjjnL
+      secret-key: lODZMLkOq7OkipMAK0q60VXKmxZVtR
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: wangshenzhen
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
