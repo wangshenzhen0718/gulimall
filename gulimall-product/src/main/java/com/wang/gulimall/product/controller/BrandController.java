@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.wang.common.valid.AddGroup;
 import com.wang.common.valid.UpdateGroup;
+import com.wang.common.valid.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -69,13 +70,21 @@ public class BrandController {
 		brandService.save(brand);
         return R.ok();
     }
-
+    /**
+     * 修改
+     * POSTman：{"name":"aaa","logo":"abc"}
+     */
+    @RequestMapping("/update")
+    public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand) {
+        brandService.updateById(brand);
+        return R.ok();
+    }
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @RequestMapping("/update/status")
     //@RequiresPermissions("product:brand:update")
-    public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
+    public R updateStatus(@Validated(UpdateStatusGroup.class) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();
