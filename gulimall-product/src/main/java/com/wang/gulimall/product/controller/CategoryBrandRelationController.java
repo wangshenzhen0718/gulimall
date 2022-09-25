@@ -1,20 +1,15 @@
 package com.wang.gulimall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.wang.gulimall.product.entity.CategoryBrandRelationEntity;
-import com.wang.gulimall.product.service.CategoryBrandRelationService;
 import com.wang.common.utils.PageUtils;
 import com.wang.common.utils.R;
+import com.wang.gulimall.product.entity.CategoryBrandRelationEntity;
+import com.wang.gulimall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -42,11 +37,20 @@ public class CategoryBrandRelationController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 获取品牌关联的分类
+     */
+    @RequestMapping("/catelog/list")
+    //@RequiresPermissions("product:categorybrandrelation:list")
+    public R list(Long brandId){
+        List<CategoryBrandRelationEntity> list = categoryBrandRelationService.lambdaQuery().eq(CategoryBrandRelationEntity::getBrandId, brandId).list();
+        return R.ok().put("data", list);
+    }
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     //@RequiresPermissions("product:categorybrandrelation:info")
     public R info(@PathVariable("id") Long id){
 		CategoryBrandRelationEntity categoryBrandRelation = categoryBrandRelationService.getById(id);
@@ -60,8 +64,8 @@ public class CategoryBrandRelationController {
     @RequestMapping("/save")
     //@RequiresPermissions("product:categorybrandrelation:save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
 
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
         return R.ok();
     }
 

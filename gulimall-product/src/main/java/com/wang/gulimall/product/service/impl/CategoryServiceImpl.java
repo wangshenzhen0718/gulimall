@@ -7,16 +7,23 @@ import com.wang.common.utils.PageUtils;
 import com.wang.common.utils.Query;
 import com.wang.gulimall.product.dao.CategoryDao;
 import com.wang.gulimall.product.entity.CategoryEntity;
+import com.wang.gulimall.product.service.CategoryBrandRelationService;
 import com.wang.gulimall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
@@ -53,6 +60,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         Collections.reverse(parentPath);
         return parentPath.toArray(new Long[parentPath.size()]);
     }
+
+    @Override
+    public void updateCasecade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
+
+    }
+
     public List<Long> findParentPath(Long catId,List<Long> paths){
         CategoryEntity categoryEntity = baseMapper.selectById(catId);
         paths.add(catId);
