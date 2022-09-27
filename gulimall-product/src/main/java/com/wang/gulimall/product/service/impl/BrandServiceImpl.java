@@ -12,6 +12,7 @@ import com.wang.gulimall.product.service.CategoryBrandRelationService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     }
 
     @Override
+    @Transactional
     public void updateDetail(BrandEntity brand) {
         this.updateById(brand);
         if (!StringUtils.isEmpty(brand.getName())){
