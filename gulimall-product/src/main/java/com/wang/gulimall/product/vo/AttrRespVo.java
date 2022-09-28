@@ -7,4 +7,7 @@ import lombok.Data;
 public class AttrRespVo extends AttrEntity {
     private String catelogName;
     private String groupName;
+    private Long attrGroupId;
+    private Long[] catelogPath;
+
 }
