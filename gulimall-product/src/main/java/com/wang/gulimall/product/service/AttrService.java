@@ -21,7 +21,7 @@ public interface AttrService extends IService<AttrEntity> {
 
     void saveAttr(AttrVo attrVo);
 
-    PageUtils queryBasePage(Long catelogId, Map<String, Object> params);
+    PageUtils queryBasePage(Long catelogId, Map<String, Object> params,String type);
 
     AttrRespVo getAttrInfo(Long attrId);
 
