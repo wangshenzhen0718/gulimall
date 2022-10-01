@@ -23,7 +23,7 @@ public interface AttrService extends IService<AttrEntity> {
 
     void saveAttr(AttrVo attrVo);
 
-    PageUtils queryBasePage(Long catelogId, Map<String, Object> params,String type);
+    PageUtils queryBasePage(Long catelogId, Map<String, Object> params, String type);
 
     AttrRespVo getAttrInfo(Long attrId);
 
@@ -32,5 +32,7 @@ public interface AttrService extends IService<AttrEntity> {
     List<AttrEntity> getRelationAttr(Long attrgroupId);
 
     void deleteRelation(AttrGroupRelationVo[] vos);
+
+    PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId);
 }
 
