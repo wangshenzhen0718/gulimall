@@ -119,5 +119,11 @@ public class AttrGroupController {
         return R.ok().put("page", page);
     }
 
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos) {
+        attrAttrgroupRelationService.saveBatch(vos);
+        return R.ok();
+    }
+
 
 }

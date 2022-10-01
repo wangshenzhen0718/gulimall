@@ -64,7 +64,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         AttrEntity attrEntity = new AttrEntity();
         BeanUtils.copyProperties(attrVo, attrEntity);
         this.save(attrEntity);
-        if (attrVo.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) {
+        if (attrVo.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode() && attrVo.getAttrGroupId() != null) {
             AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
             attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getAttrGroupId());
             attrAttrgroupRelationEntity.setAttrId(attrEntity.getAttrId());
@@ -198,12 +198,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // 2.3 从当前分类下的所有属性移除这些属性
         LambdaQueryWrapper<AttrEntity> wrapper = new LambdaQueryWrapper<AttrEntity>().eq(AttrEntity::getCatelogId, catelogId).eq(AttrEntity::getAttrType, ProductConstant.AttrEnum.ATTR_TYPE_BASE);
         if (attrIds != null && attrIds.size() > 0) {
-            wrapper.ne(AttrEntity::getAttrId, attrIds);
+            wrapper.notIn(AttrEntity::getAttrId, attrIds);
         }
         String key = (String) params.get("key");
         if (!StringUtils.isEmpty(key)) {
             wrapper.and((w) -> {
-                w.eq(AttrEntity::getAttrId, key).or().eq(AttrEntity::getAttrName, key);
+                w.eq(AttrEntity::getAttrId, key).or().like(AttrEntity::getAttrName, key);
             });
         }
         IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), wrapper);
