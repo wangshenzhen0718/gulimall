@@ -4,9 +4,11 @@ import com.wang.common.utils.PageUtils;
 import com.wang.common.utils.R;
 import com.wang.gulimall.product.entity.AttrEntity;
 import com.wang.gulimall.product.entity.AttrGroupEntity;
+import com.wang.gulimall.product.service.AttrAttrgroupRelationService;
 import com.wang.gulimall.product.service.AttrGroupService;
 import com.wang.gulimall.product.service.AttrService;
 import com.wang.gulimall.product.service.CategoryService;
+import com.wang.gulimall.product.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +35,8 @@ public class AttrGroupController {
     CategoryService categoryService;
     @Autowired
     AttrService attrService;
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
     /**
      * 列表
      */
@@ -100,6 +104,11 @@ public class AttrGroupController {
     public R delete(@RequestBody Long[] attrGroupIds){
 		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
 
+        return R.ok();
+    }
+    @PostMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody AttrGroupRelationVo[] vos) {
+        attrService.deleteRelation(vos);
         return R.ok();
     }
 

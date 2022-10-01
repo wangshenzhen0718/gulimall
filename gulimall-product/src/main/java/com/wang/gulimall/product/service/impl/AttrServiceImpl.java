@@ -18,6 +18,7 @@ import com.wang.gulimall.product.entity.AttrGroupEntity;
 import com.wang.gulimall.product.entity.CategoryEntity;
 import com.wang.gulimall.product.service.AttrService;
 import com.wang.gulimall.product.service.CategoryService;
+import com.wang.gulimall.product.vo.AttrGroupRelationVo;
 import com.wang.gulimall.product.vo.AttrRespVo;
 import com.wang.gulimall.product.vo.AttrVo;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -168,6 +170,17 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
              list = attrDao.selectList(new QueryWrapper<AttrEntity>().in("attr_id", collect));
         }
         return list;
+    }
+
+    @Override
+    public void deleteRelation(AttrGroupRelationVo[] vos) {
+        List<AttrAttrgroupRelationEntity> entities = Arrays.asList(vos).stream().map((item) -> {
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+            BeanUtils.copyProperties(item, attrAttrgroupRelationEntity);
+            return attrAttrgroupRelationEntity;
+
+        }).collect(Collectors.toList());
+        attrAttrgroupRelationDao.deleteRelation(entities);
     }
 
 }
