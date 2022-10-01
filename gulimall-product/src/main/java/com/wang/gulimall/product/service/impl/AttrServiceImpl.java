@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -152,6 +153,21 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }
 
 
+    }
+
+    @Override
+    public List<AttrEntity> getRelationAttr(Long attrgroupId) {
+        List<AttrAttrgroupRelationEntity> attrGroupId = attrAttrgroupRelationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id", attrgroupId));
+        List<Long> collect = attrGroupId.stream().map((a) -> {
+            return a.getAttrId();
+
+        }).collect(Collectors.toList());
+        List<AttrEntity> list=new ArrayList<>();
+        if (collect.size()>0){
+
+             list = attrDao.selectList(new QueryWrapper<AttrEntity>().in("attr_id", collect));
+        }
+        return list;
     }
 
 }

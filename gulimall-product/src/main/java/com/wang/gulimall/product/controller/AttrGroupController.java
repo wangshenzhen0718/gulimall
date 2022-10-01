@@ -1,21 +1,18 @@
 package com.wang.gulimall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-
-import com.wang.gulimall.product.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.wang.gulimall.product.entity.AttrGroupEntity;
-import com.wang.gulimall.product.service.AttrGroupService;
 import com.wang.common.utils.PageUtils;
 import com.wang.common.utils.R;
+import com.wang.gulimall.product.entity.AttrEntity;
+import com.wang.gulimall.product.entity.AttrGroupEntity;
+import com.wang.gulimall.product.service.AttrGroupService;
+import com.wang.gulimall.product.service.AttrService;
+import com.wang.gulimall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -34,6 +31,8 @@ public class AttrGroupController {
 
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    AttrService attrService;
     /**
      * 列表
      */
@@ -43,6 +42,13 @@ public class AttrGroupController {
         PageUtils page = attrGroupService.queryPage(params);
         return R.ok().put("page", page);
     }
+
+    @GetMapping("/{attrgroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId) {
+        List<AttrEntity> entities = attrService.getRelationAttr(attrgroupId);
+        return R.ok().put("data",entities);
+    }
+
 
     @RequestMapping("/list/{catelogId}")
     //@RequiresPermissions("product:attrgroup:list")
