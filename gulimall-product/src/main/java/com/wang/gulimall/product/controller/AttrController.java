@@ -53,18 +53,6 @@ public class AttrController {
         return R.ok().put("attr", respVo);
     }
 
-
-//    /**
-//     * 信息
-//     */
-//    @RequestMapping("/info/{attrId}")
-//    //@RequiresPermissions("product:attr:info")
-//    public R info(@PathVariable("attrId") Long attrId){
-//		AttrEntity attr = attrService.getById(attrId);
-//
-//        return R.ok().put("attr", attr);
-//    }
-
     /**
      * 保存
      */
