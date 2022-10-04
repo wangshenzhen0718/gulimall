@@ -30,3 +30,6 @@ server:
 logging:
   level:
     com.wang.gulimall: debug
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000

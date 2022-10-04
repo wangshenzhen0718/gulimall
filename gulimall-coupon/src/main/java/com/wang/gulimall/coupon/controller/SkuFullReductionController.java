@@ -1,20 +1,15 @@
 package com.wang.gulimall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.wang.gulimall.coupon.entity.SkuFullReductionEntity;
-import com.wang.gulimall.coupon.service.SkuFullReductionService;
+import com.wang.common.to.SkuReductionTo;
 import com.wang.common.utils.PageUtils;
 import com.wang.common.utils.R;
+import com.wang.gulimall.coupon.entity.SkuFullReductionEntity;
+import com.wang.gulimall.coupon.service.SkuFullReductionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -57,10 +52,10 @@ public class SkuFullReductionController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @RequestMapping("/saveinfo")
     //@RequiresPermissions("coupon:skufullreduction:save")
-    public R save(@RequestBody SkuFullReductionEntity skuFullReduction){
-		skuFullReductionService.save(skuFullReduction);
+    public R saveInfo(@RequestBody SkuReductionTo reductionTo){
+		skuFullReductionService.saveSkuReduction(reductionTo);
 
         return R.ok();
     }
